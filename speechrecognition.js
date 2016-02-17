@@ -14,33 +14,30 @@ var constraints = {
 
 var video = document.querySelector('video');
 var rec;
+var frequencyData = []
 console.log(video, rec)
 
 function successCallback(stream) {
   var audioCtx = new AudioContext();
   var mediaStreamSource = audioCtx.createMediaStreamSource(stream);
 
-  window.stream = stream; // stream available to console
-  if (window.URL) {
-    video.src = window.URL.createObjectURL(stream);
-  } else {
-    video.src = stream;
-  }
-
   rec = new Recorder(mediaStreamSource)
   console.log('streaming:', rec)
 }
 
 $('#start').click(function() {
+  console.log('started')
   rec.record()
   setTimeout(function() {
     rec.stop()
-    rec.exportWAV((blob) => downloadFile(blob), 'audio/wav')
+    rec.exportWAV((blob) => inputFile(blob), 'audio/wav')
   }, 5000)
 })
 
-function downloadFile(blob) {
-  Recorder.forceDownload(blob)
+function inputFile(blob) {
+  console.log(URL.createObjectURL(blob))
+  $('#clip').val(URL.createObjectURL(blob))
+  $("#clip").trigger("updated");
 }
 
 function errorCallback(error) {
