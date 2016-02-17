@@ -90,7 +90,6 @@ module.exports = Recorder;
 
 let Recorder = require('recorderjs')
 
-
 navigator.getUserMedia  = navigator.getUserMedia ||
                           navigator.webkitGetUserMedia ||
                           navigator.mozGetUserMedia;
@@ -119,6 +118,7 @@ $('#start').click(function() {
   setTimeout(function() {
     rec.stop()
     rec.exportWAV((blob) => inputFile(blob), 'audio/wav')
+    rec.clear()
   }, 5000)
 })
 

@@ -2,14 +2,13 @@ var sound;
 // var loadSound = loadSound
 
 function preload(){
-  sound = loadSound('test.wav')
+  sound = loadSound('test3.wav')
 }
 
 $('#clip').on('updated', function() {
-  endShape();
   var soundInput = $('#clip').val()
   $('#player').attr('src', soundInput)
-  sound = loadSound(soundInput)
+  sound.setPath(soundInput)
   console.log('changed!', sound)
 })
 
@@ -20,8 +19,8 @@ function setup(){
   sound.amp(0.2);
 }
 
-var mouthWidth = 0
-var mouthHeight = 0
+var mouthWidth = 20
+var mouthHeight = 5
 
 function draw(){
   background(0)
@@ -39,7 +38,10 @@ function draw(){
     // console.log(pitch / spectrum.length)
   } else {
     // console.log(pitch / spectrum.length)
-    mouthWidth = 40 + (300 * (pitch / spectrum.length))
+    mouthWidth = 40 + (500 * (pitch / spectrum.length))
+    if (mouthWidth <= 20) {
+      mouthWidth = 20
+    }
     var waveform = fft.waveform();
 
     var peak = 0
@@ -54,9 +56,11 @@ function draw(){
       }
     }
 
-    mouthHeight = 5 + (peak - original)
+    mouthHeight = 5 + 2 * (peak - original)
     if (mouthHeight >= 20) {
       mouthHeight = 20
+    } else if (mouthHeight <= 2) {
+      mouthHeight = 2
     }
   }
 
@@ -67,14 +71,14 @@ function draw(){
 }
 
 function visualization() {
-  // console.log('vis')
+  console.log('vis')
   $('.mouth').css('width', mouthWidth + 'px')
   $('.mouth').css('height', mouthHeight + 'px')
 }
 
 var tick = setInterval(function() {
   visualization()
-}, 20)
+}, 100)
 
 // fade sound if mouse is over canvas
 function togglePlay() {
