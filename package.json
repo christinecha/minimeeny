@@ -1,0 +1,24 @@
+{
+  "name": "minime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "speechrecognition.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christinecha/minime.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christinecha/minime/issues"
+  },
+  "homepage": "https://github.com/christinecha/minime#readme",
+  "dependencies": {
+    "browserify": "^5.13.1",
+    "recorderjs": "^1.0.1",
+    "workerify": "^0.3.0"
+  }
+}
