@@ -119,7 +119,7 @@ $('#start').click(function() {
     rec.stop()
     rec.exportWAV((blob) => inputFile(blob), 'audio/wav')
     rec.clear()
-  }, 5000)
+  }, 15000)
 })
 
 function inputFile(blob) {

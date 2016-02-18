@@ -38,7 +38,7 @@ function draw(){
     // console.log(pitch / spectrum.length)
   } else {
     // console.log(pitch / spectrum.length)
-    mouthWidth = (800 * (pitch / spectrum.length)) + 30
+    mouthWidth = 40 + (500 * (pitch / spectrum.length))
     if (mouthWidth <= 10) {
       mouthWidth = 10
     }
