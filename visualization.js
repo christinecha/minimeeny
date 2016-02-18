@@ -38,9 +38,9 @@ function draw(){
     // console.log(pitch / spectrum.length)
   } else {
     // console.log(pitch / spectrum.length)
-    mouthWidth = 40 + (500 * (pitch / spectrum.length))
-    if (mouthWidth <= 20) {
-      mouthWidth = 20
+    mouthWidth = (800 * (pitch / spectrum.length)) + 30
+    if (mouthWidth <= 10) {
+      mouthWidth = 10
     }
     var waveform = fft.waveform();
 
@@ -56,7 +56,7 @@ function draw(){
       }
     }
 
-    mouthHeight = 5 + 2 * (peak - original)
+    mouthHeight = 5 + 4 * (peak - original)
     if (mouthHeight >= 20) {
       mouthHeight = 20
     } else if (mouthHeight <= 2) {
@@ -66,8 +66,6 @@ function draw(){
 
   // console.log(peak - original)
   endShape();
-
-  text('click to play/pause', 4, 10);
 }
 
 function visualization() {
