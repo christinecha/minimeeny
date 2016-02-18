@@ -68,21 +68,28 @@ function draw(){
   endShape();
 }
 
+var animationFrames = []
+
 function visualization() {
-  console.log('vis')
-  $('.mouth').css('width', mouthWidth + 'px')
-  $('.mouth').css('height', mouthHeight + 'px')
+  if (sound.isPlaying()) {
+    $('.mouth').css('width', mouthWidth + 'px')
+    $('.mouth').css('height', mouthHeight + 'px')
+    animationFrames.push([mouthWidth, mouthHeight])
+  }
 }
 
-var tick = setInterval(function() {
-  visualization()
-}, 100)
+var tick;
 
 // fade sound if mouse is over canvas
 function togglePlay() {
   if (sound.isPlaying()) {
     sound.pause();
+    clearInterval(tick)
   } else {
-    sound.loop();
+    sound.play();
+    animationFrames = []
+    tick = setInterval(function() {
+      visualization()
+    }, 100)
   }
 }

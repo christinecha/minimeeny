@@ -18,6 +18,8 @@ body {
 }
 
 .mouth {
+  height: 5px;
+  width: 40px;
   border-radius: 10px 10px 30px 30px;
   background-color: black;
   margin: 0 auto;
