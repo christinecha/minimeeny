@@ -6,7 +6,7 @@ export const UPDATE_MOUTH = (mouthState) => {
     type: 'UPDATE_MOUTH',
     data: {
       animations: {
-        mouth: [mouthState[0], mouthState[1]]
+        mouth: mouthState
       }
     }
   })

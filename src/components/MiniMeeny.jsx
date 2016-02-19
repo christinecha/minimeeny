@@ -22,6 +22,10 @@ export class MiniMeeny extends React.Component {
 
     var frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
+    let envVolume = 0
+    let envSet = false
+    let framesRendered = 0
+
     function renderFrame() {
         $('#visualizer').empty()
         analyser.getByteFrequencyData(frequencyData);
@@ -31,39 +35,45 @@ export class MiniMeeny extends React.Component {
 
         let volume = 0
         let pitch = 0
+        let eyebrowHeight = 0
+        let borderRadius = 50
 
-        for (let i = 10; i < 30; i ++) {
-          // let $box = $('<div>')
-          //   .css('height', frequencyData[i]+ 'px')
-          //   .attr('data-pitch', i)
-          //   .attr('data-volume', frequencyData[i])
-          //   .css('display', 'inline-block')
-          //   .css('width', '2px')
-          //   .css('vertical-align', 'bottom')
-          //   .css('backgroundColor', 'black')
-          // $('#visualizer').append($box)
-
-          if (frequencyData[i] >= 50) {
-            volume += frequencyData[i]
-          }
-
-          if (frequencyData[i] > frequencyData[i-1]) {
-            pitch = i
+        let i = 0
+        if (envSet == false) {
+          if (frequencyData[i] == 0) {
+            // ugg not yet
+          } else {
+            framesRendered+= 1
+            envVolume += frequencyData[i]
+            if (framesRendered >= 3) {
+              envSet = true
+              envVolume = envVolume / framesRendered
+              console.log('env', envVolume, envSet)
+            }
           }
         }
 
-        console.log(volume)
+        let $box = $('<div>')
+          .css('height', frequencyData[i]+ 'px')
+          .attr('data-pitch', i)
+          .attr('data-volume', frequencyData[i])
+          .css('display', 'inline-block')
+          .css('width', '2px')
+          .css('vertical-align', 'bottom')
+          .css('backgroundColor', 'black')
+        $('#visualizer').append($box)
 
-        if (volume > 100) {
-          height = 10 + Math.ceil(volume / 200)
+        volume = frequencyData[i]
 
-          if (pitch > 10) {
-            width = 80 - (pitch * 2)
-          }
+        if (volume - envVolume > 100) {
+          height = 10 + Math.ceil(volume / 20)
+          width = 40 + Math.ceil(volume / 50)
+          borderRadius = 100 - Math.ceil(volume / 5)
+          eyebrowHeight = 1 + Math.ceil(volume / 100)
         }
 
         if (!audio.paused) {
-          dispatch(action.UPDATE_MOUTH([width, height]))
+          dispatch(action.UPDATE_MOUTH([width, height, borderRadius, eyebrowHeight]))
           setTimeout(() => {
             requestAnimationFrame(renderFrame)
           }, 10)
@@ -78,15 +88,24 @@ export class MiniMeeny extends React.Component {
 
     const { animations, audioFile, character, currentFrame } = this.props
 
+    let mouthFrame = animations.toJS().mouth
+    let borderRadiusString = mouthFrame[2] + '% ' + mouthFrame[2] + '% 100% 100%'
+    // console.log(borderRadiusString)
+
     let styles = {
       mouth: {
         backgroundColor: 'black',
-        width: animations.toJS().mouth[0] + 'px',
-        height: animations.toJS().mouth[1] + 'px',
-        borderRadius: '15px 15px 30px 30px',
+        width: mouthFrame[0] + 'px',
+        height: mouthFrame[1] + 'px',
+        borderRadius: borderRadiusString,
         margin: '0 auto',
-        WebkitTransition: 'height .05s, width .05s',
-        transition: 'height .05s, width .05s'
+        WebkitTransition: 'height .05s, width .1s, border-radius .05s',
+        transition: 'height .05s, width .1s, border-radius .05s'
+      },
+      eyebrows: {
+        marginBottom: mouthFrame[3] + 'px',
+        WebkitTransition: 'margin-bottom .1s',
+        transition: 'margin-bottom .1s'
       }
     }
 
@@ -95,6 +114,14 @@ export class MiniMeeny extends React.Component {
         <audio src={audioFile} id={"player"} controls></audio>
         <div>
           face of {character.toJS().name}
+        </div>
+        <div className={"eyebrows"} style={styles.eyebrows}>
+          <div className={"eyebrow"}></div>
+          <div className={"eyebrow"}></div>
+        </div>
+        <div className={"eyes"}>
+          <div className={"eye"}></div>
+          <div className={"eye"}></div>
         </div>
         <div style={styles.mouth} ></div>
       </div>

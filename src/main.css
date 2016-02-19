@@ -3,7 +3,7 @@ body {
 }
 
 .eyes {
-  width: 54px;
+  width: 66px;
   margin: 0 auto;
 }
 
@@ -12,8 +12,22 @@ body {
   width: 5px;
   height: 5px;
   border-radius: 100%;
-  margin: 8px;
-  border: 2px solid white;
+  margin: 3px 8px;
+  border: 6px solid white;
+  background-color: black;
+}
+
+.eyebrows {
+  width: 60px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  width: 20px;
+  height: 5px;
+  border-radius: 100%;
+  margin: 0 4px;
   background-color: black;
 }
 
