@@ -2,7 +2,7 @@ var sound;
 // var loadSound = loadSound
 
 function preload(){
-  sound = loadSound('test3.wav')
+  sound = loadSound('test2.wav')
 }
 
 $('#clip').on('updated', function() {

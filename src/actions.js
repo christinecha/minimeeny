@@ -1,12 +1,13 @@
 "use strict"
 
-export const NEXT_ANIMATION_FRAME = (currentFrame) => {
-  let newFrame = currentFrame + 1
+export const UPDATE_MOUTH = (mouthState) => {
 
   return ({
-    type: 'NEXT_ANIMATION_FRAME',
+    type: 'UPDATE_MOUTH',
     data: {
-      currentFrame: newFrame
+      animations: {
+        mouth: [mouthState[0], mouthState[1]]
+      }
     }
   })
 }

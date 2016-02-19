@@ -34,10 +34,10 @@ let animationFrames = [
 store.dispatch({
   type: 'SET_INITIAL_STATE',
   data: {
-    animationFrames: {
-      mouth: animationFrames
+    animations: {
+      mouth: []
     },
-    audioFile: 'src/assets/test3.wav',
+    audioFile: 'src/assets/test.m4a',
     character: {
       name: 'Christine'
     },
