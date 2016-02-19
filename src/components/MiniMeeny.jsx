@@ -18,7 +18,7 @@ export class MiniMeeny extends React.Component {
     let source = audioCtx.createMediaElementSource(audio);
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
-    analyser.fftSize = 64;
+    analyser.fftSize = 2048;
 
     var frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
@@ -27,10 +27,10 @@ export class MiniMeeny extends React.Component {
     let framesRendered = 0
 
     function renderFrame() {
-        $('#visualizer').empty()
+        // $('#visualizer').empty()
         analyser.getByteFrequencyData(frequencyData);
 
-        let width = 60
+        let width = 40
         let height = 5
 
         let volume = 0
@@ -38,37 +38,44 @@ export class MiniMeeny extends React.Component {
         let eyebrowHeight = 0
         let borderRadius = 50
 
-        let i = 0
-        if (envSet == false) {
-          if (frequencyData[i] == 0) {
-            // ugg not yet
-          } else {
-            framesRendered+= 1
-            envVolume += frequencyData[i]
-            if (framesRendered >= 3) {
-              envSet = true
-              envVolume = envVolume / framesRendered
-              console.log('env', envVolume, envSet)
+        for (let i = 3; i < 7; i++) {
+          // let $box = $('<div>')
+          //   .css('height', frequencyData[i]+ 'px')
+          //   .attr('data-pitch', i)
+          //   .attr('data-volume', frequencyData[i])
+          //   .css('display', 'inline-block')
+          //   .css('width', '2px')
+          //   .css('vertical-align', 'bottom')
+          //   .css('backgroundColor', 'black')
+          // $('#visualizer').append($box)
+
+          if (envSet == false) {
+            if (frequencyData[i] == 0) {
+              // ugg not yet
+            } else {
+              framesRendered+= 1
+              envVolume += frequencyData[i]
             }
+          }
+
+          volume += frequencyData[i]
+          if (i == 2 || frequencyData[i] > frequencyData[i-1]) {
+            pitch = i
           }
         }
 
-        let $box = $('<div>')
-          .css('height', frequencyData[i]+ 'px')
-          .attr('data-pitch', i)
-          .attr('data-volume', frequencyData[i])
-          .css('display', 'inline-block')
-          .css('width', '2px')
-          .css('vertical-align', 'bottom')
-          .css('backgroundColor', 'black')
-        $('#visualizer').append($box)
+        if (framesRendered >= 30 && !envSet) {
+          envSet = true
+          envVolume = envVolume / framesRendered
+          // console.log('env', envVolume, envSet)
+        }
 
-        volume = frequencyData[i]
+        // console.log(volume/3, envVolume, pitch)
 
-        if (volume - envVolume > 100) {
+        if (volume/3 - envVolume > 0) {
           height = 10 + Math.ceil(volume / 20)
-          width = 40 + Math.ceil(volume / 50)
-          borderRadius = 100 - Math.ceil(volume / 5)
+          width = 40 + Math.ceil(volume / 40) - (pitch * 3)
+          borderRadius = 50 + Math.ceil(pitch * 3)
           eyebrowHeight = 1 + Math.ceil(volume / 100)
         }
 
