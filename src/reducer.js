@@ -5,7 +5,7 @@ function setState(state, newData) {
 }
 
 function reducer(state = Map(), action) {
-  console.log(action.type)
+  // console.log(action.type)
   return setState(state, action.data)
 }
 

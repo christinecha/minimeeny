@@ -20,7 +20,7 @@ export class MiniMeeny extends React.Component {
     analyser.connect(audioCtx.destination);
     analyser.fftSize = 2048;
 
-    var frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    let frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
     let envVolume = 0
     let envSet = false
@@ -29,6 +29,7 @@ export class MiniMeeny extends React.Component {
     function renderFrame() {
         // $('#visualizer').empty()
         analyser.getByteFrequencyData(frequencyData);
+        // console.log(frequencyData)
 
         let width = 40
         let height = 5
@@ -38,52 +39,61 @@ export class MiniMeeny extends React.Component {
         let eyebrowHeight = 0
         let borderRadius = 50
 
-        for (let i = 3; i < 7; i++) {
-          // let $box = $('<div>')
-          //   .css('height', frequencyData[i]+ 'px')
-          //   .attr('data-pitch', i)
-          //   .attr('data-volume', frequencyData[i])
-          //   .css('display', 'inline-block')
-          //   .css('width', '2px')
-          //   .css('vertical-align', 'bottom')
-          //   .css('backgroundColor', 'black')
-          // $('#visualizer').append($box)
-
+        for (let i = 6; i < 18; i++) {
           if (envSet == false) {
-            if (frequencyData[i] == 0) {
-              // ugg not yet
-            } else {
-              framesRendered+= 1
-              envVolume += frequencyData[i]
-            }
+            envVolume += frequencyData[i]
           }
 
           volume += frequencyData[i]
-          if (i == 2 || frequencyData[i] > frequencyData[i-1]) {
+          if (i == 6 || frequencyData[i] > frequencyData[i-1]) {
             pitch = i
           }
         }
 
-        if (framesRendered >= 30 && !envSet) {
+        if (!envSet && framesRendered >= 3) {
           envSet = true
           envVolume = envVolume / framesRendered
-          // console.log('env', envVolume, envSet)
+        } else if (envVolume == 0){
+          // nada
+        } else {
+          framesRendered+= 1
         }
 
-        // console.log(volume/3, envVolume, pitch)
 
-        if (volume/3 - envVolume > 0) {
-          height = 10 + Math.ceil(volume / 20)
-          width = 40 + Math.ceil(volume / 40) - (pitch * 3)
-          borderRadius = 50 + Math.ceil(pitch * 3)
-          eyebrowHeight = 1 + Math.ceil(volume / 100)
+        let trueVolume = volume - envVolume
+        if (trueVolume > 100) {
+
+          let excess = trueVolume - 100
+          let excessCorrected = 0
+          for (let i = 1; i <= excess; i++) {
+            excessCorrected+= 0.2 + (1 / i)
+          }
+          trueVolume = 100 + excessCorrected
+
+          console.log(excess, excessCorrected, trueVolume)
+
+          height = 5 + Math.round(trueVolume / 30)
+          width = 50 + Math.round(trueVolume / 20) - (pitch * 2.5)
+          borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 50)
+          eyebrowHeight = 1 + Math.ceil(trueVolume / 50)
+          // console.log(borderRadius)
+
+          if (height >= 20) {
+            height = 20
+          }
+
+          if (width >= 50) {
+            width = 50
+          } else if (width <= 15) {
+            width = 15
+          }
         }
 
         if (!audio.paused) {
           dispatch(action.UPDATE_MOUTH([width, height, borderRadius, eyebrowHeight]))
-          setTimeout(() => {
-            requestAnimationFrame(renderFrame)
-          }, 10)
+          requestAnimationFrame(renderFrame)
+        } else {
+          dispatch(action.UPDATE_MOUTH([40, 5, 50, 0]))
         }
     }
 
