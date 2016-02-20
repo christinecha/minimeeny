@@ -64,9 +64,15 @@ export class MiniMeeny extends React.Component {
     const { animations, audioFile, character, currentFrame } = this.props
 
     let face = animations.toJS().face
-    let borderRadiusString = face.borderRadius + '% ' + face.borderRadius + '% 100% 100%'
+    let borderRadiusString = face.borderRadius + '% ' + face.borderRadius + '% 80% 80%'
 
     let styles = {
+      lips: {
+        width: face.width + 'px',
+        borderRadius: borderRadiusString,
+        WebkitTransition: 'height .1s, width .1s, border-radius .05s',
+        transition: 'height .1s, width .1s, border-radius .05s'
+      },
       mouth: {
         backgroundColor: 'black',
         width: face.width + 'px',
@@ -77,9 +83,23 @@ export class MiniMeeny extends React.Component {
         transition: 'height .05s, width .1s, border-radius .05s'
       },
       eyebrows: {
-        marginBottom: face.eyebrowHeight + 'px',
-        WebkitTransition: 'margin-bottom .1s',
-        transition: 'margin-bottom .1s'
+
+      },
+      eyebrow: {
+        marginTop: -face.eyebrowHeight + 'px',
+        MsTransition: 'margin .1s, transform .1s',
+        WebkitTransition: 'margin .1s, transform .1s',
+        transition: 'margin .1s, transform .1s'
+      },
+      eyebrowLeft: {
+        MsTransform: 'rotate(-' + face.eyebrowHeight + 'deg)', /* IE 9 */
+        WebkitTransform: 'rotate(-' + face.eyebrowHeight + 'deg)', /* Chrome, Safari, Opera */
+        transform: 'rotate(-' + face.eyebrowHeight + 'deg)'
+      },
+      eyebrowRight: {
+        MsTransform: 'rotate(' + face.eyebrowHeight + 'deg)', /* IE 9 */
+        WebkitTransform: 'rotate(' + face.eyebrowHeight + 'deg)', /* Chrome, Safari, Opera */
+        transform: 'rotate(' + face.eyebrowHeight + 'deg)'
       }
     }
 
@@ -89,15 +109,19 @@ export class MiniMeeny extends React.Component {
         <div>
           face of {character.toJS().name}
         </div>
-        <div className={"eyebrows"} style={styles.eyebrows}>
-          <div className={"eyebrow"}></div>
-          <div className={"eyebrow"}></div>
+        <div className={"face"}>
+          <div className={"eyebrows"} style={styles.eyebrows}>
+            <div className={"eyebrow"} style={Object.assign({}, styles.eyebrow, styles.eyebrowLeft)}></div>
+            <div className={"eyebrow eyebrow-right"} style={Object.assign({}, styles.eyebrow, styles.eyebrowRight)}></div>
+          </div>
+          <div className={"eyes"}>
+            <div className={"eye"}></div>
+            <div className={"eye"}></div>
+          </div>
+          <div className={"mouthContainer"} style={styles.lips}>
+            <div style={styles.mouth} ></div>
+          </div>
         </div>
-        <div className={"eyes"}>
-          <div className={"eye"}></div>
-          <div className={"eye"}></div>
-        </div>
-        <div style={styles.mouth} ></div>
       </div>
     )
   }
