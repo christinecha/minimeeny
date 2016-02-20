@@ -1,12 +1,12 @@
 "use strict"
 
-export const UPDATE_MOUTH = (mouthState) => {
+export const UPDATE_FACE = (animationFrame) => {
 
   return ({
-    type: 'UPDATE_MOUTH',
+    type: 'UPDATE_FACE',
     data: {
       animations: {
-        mouth: mouthState
+        face: animationFrame
       }
     }
   })

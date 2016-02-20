@@ -35,7 +35,7 @@ store.dispatch({
   type: 'SET_INITIAL_STATE',
   data: {
     animations: {
-      mouth: []
+      face: {}
     },
     audioFile: 'src/assets/test.m4a',
     character: {
