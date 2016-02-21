@@ -24,7 +24,7 @@ export const getEnvironmentVolume = (frequencyData) => {
 
 export const getAnimationFrame = (frequencyData, envVolume) => {
   let width = 40
-  let height = 5
+  let height = 2
   let eyebrowHeight = 0
   let borderRadius = 50
   let volume = 0
@@ -39,23 +39,24 @@ export const getAnimationFrame = (frequencyData, envVolume) => {
   }
 
   purity = frequencyData[pitch] / volume
-  console.log(purity)
 
   let trueVolume = volume - envVolume
-  if (trueVolume > 100) {
+
+  if (trueVolume > 100 && purity > 0.05) {
 
     let excess = trueVolume - 100
     let excessCorrected = 0
     for (let i = 1; i <= excess; i++) {
-      excessCorrected+= 0.2 + (1 / i)
+      excessCorrected+= 0.25 + (1 / i)
     }
     trueVolume = 100 + excessCorrected
+    // console.log(trueVolume, pitch, purity)
 
-    height = 5 + Math.round(trueVolume / 30)
-    width = 50 + Math.round(trueVolume / 30) - (pitch * 1.5) - (purity * 80)
-    borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 300)
+    height = 2 + Math.round(trueVolume / 40)
+    width = 50 + Math.round(trueVolume / 30) - (pitch) - (purity * 200)
+    borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 400) - (purity * 50)
     eyebrowHeight = 1 + Math.ceil(trueVolume / 50)
-    // console.log(borderRadius)
+    // console.log(height, width)
 
     if (height >= 20) {
       height = 20

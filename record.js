@@ -11,14 +11,17 @@ var constraints = {
   video: true
 };
 
-var video = document.querySelector('video');
 var rec;
-var frequencyData = []
-console.log(video, rec)
 
 function successCallback(stream) {
+var video = document.getElementById('vid')
   var audioCtx = new AudioContext();
-  var mediaStreamSource = audioCtx.createMediaStreamSource(stream);
+  var mediaStreamSource = audioCtx.createMediaStreamSource(stream)
+  video.src = window.URL.createObjectURL(stream);
+   video.onloadedmetadata = function(e) {
+      // Do something with the video here.
+      video.play()
+   };
 
   rec = new Recorder(mediaStreamSource)
   console.log('streaming:', rec)
@@ -31,7 +34,14 @@ $('#start').click(function() {
     rec.stop()
     rec.exportWAV((blob) => inputFile(blob), 'audio/wav')
     rec.clear()
-  }, 15000)
+  }, 5000)
+})
+
+$('#clip').on('updated', function() {
+  var soundInput = $('#clip').val()
+  $('#player').attr('src', soundInput)
+  // sound.setPath(soundInput)
+  // console.log('changed!', sound)
 })
 
 function inputFile(blob) {
@@ -39,6 +49,8 @@ function inputFile(blob) {
   $('#clip').val(URL.createObjectURL(blob))
   $("#clip").trigger("updated");
 }
+
+
 
 function errorCallback(error) {
   console.log('navigator.getUserMedia error: ', error);

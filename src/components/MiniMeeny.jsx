@@ -59,6 +59,10 @@ export class MiniMeeny extends React.Component {
     renderFrame()
   }
 
+  recordAudio() {
+
+  }
+
   render() {
 
     const { animations, audioFile, character, currentFrame } = this.props
@@ -106,6 +110,7 @@ export class MiniMeeny extends React.Component {
     return (
       <div>
         <audio src={audioFile} id={"player"} controls></audio>
+        <button onClick={() => this.recordAudio()}>start recording</button>
         <div>
           face of {character.toJS().name}
         </div>

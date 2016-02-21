@@ -6,7 +6,7 @@ body {
   width: 100px;
   height: 100px;
   border-radius: 50% 50% 60% 60%;
-  background-color: yellow;
+  background-color: #FFEBC7;
   margin: 0 auto;
 }
 
@@ -48,15 +48,15 @@ body {
 }
 
 .mouthContainer {
-  padding: 2px;
+  padding: 2px 1px 4px 1px;
   width: 44px;
   margin: 0 auto;
   border-radius: 50%;
-  background-color: pink;
+  background-color: #D04054;
 }
 
 .mouth {
-  height: 5px;
+  height: 2px;
   width: 40px;
   border-radius: 10px 10px 30px 30px;
   background-color: black;
