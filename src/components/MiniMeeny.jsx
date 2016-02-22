@@ -47,7 +47,7 @@ export class MiniMeeny extends React.Component {
           requestAnimationFrame(renderFrame)
         } else {
           dispatch(action.UPDATE_FACE({
-            height: 5,
+            height: 2,
             width: 40,
             borderRadius: 50,
             eyebrowHeight: 0
@@ -71,18 +71,13 @@ export class MiniMeeny extends React.Component {
     let borderRadiusString = face.borderRadius + '% ' + face.borderRadius + '% 80% 80%'
 
     let styles = {
-      lips: {
-        width: face.width + 'px',
-        borderRadius: borderRadiusString,
-        WebkitTransition: 'height .1s, width .1s, border-radius .05s',
-        transition: 'height .1s, width .1s, border-radius .05s'
-      },
       mouth: {
         backgroundColor: 'black',
         width: face.width + 'px',
         height: face.height + 'px',
+        border: '2px solid #D04054',
         borderRadius: borderRadiusString,
-        margin: '0 auto',
+        margin: ((20 - face.height) / 2) + 'px auto',
         WebkitTransition: 'height .05s, width .1s, border-radius .05s',
         transition: 'height .05s, width .1s, border-radius .05s',
         backgroundImage: 'url("./src/assets/teeth-01.png")',

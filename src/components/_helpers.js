@@ -53,7 +53,7 @@ export const getAnimationFrame = (frequencyData, envVolume) => {
     console.log(trueVolume, pitch, purity)
 
     height = 2 + Math.round(trueVolume / 40)
-    width = 50 + Math.round(trueVolume / 30) - (pitch) - (purity * 100)
+    width = 50 + Math.round(trueVolume / 30) - (pitch) - (purity * 150)
     borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 400) - (purity * 50)
     eyebrowHeight = 1 + Math.ceil(trueVolume / 50)
     // console.log(height, width)
