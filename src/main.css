@@ -4,7 +4,8 @@ body {
 
 .face {
   width: 100px;
-  height: 100px;
+  min-height: 80px;
+  padding: 20px 0 10px 0;
   border-radius: 50% 50% 60% 60%;
   background-color: #FFEBC7;
   margin: 0 auto;
@@ -16,11 +17,12 @@ body {
 }
 
 .eye {
+  font-size: 0;
   display: inline-block;
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  margin: 3px 8px;
+  margin: 0 8px;
   border: 4px solid white;
   background-color: black;
 }
@@ -39,27 +41,21 @@ body {
   height: 5px;
   border-radius: 30%;
   margin: 0 4px;
-  background-color: black;
-  opacity: .4;
+  background-image: url('./assets/eyebrow-03.png')
 }
 
 .eyebrow-right {
   margin-left: 35px;
+  background-image: url('./assets/eyebrow-04.png')
 }
 
 .mouthContainer {
-  height: 20px;
+  /*height: 30px;*/
   width: 50px;
   margin: auto;
 }
 
-.mouth {
-  height: 2px;
-  width: 40px;
-  border-radius: 10px 10px 30px 30px;
-  background-color: black;
-  margin: 0 auto;
-  -webkit-transition: width .02s, height .02s;
-  transition: width .02s, height .02s;
-  background-image: url('../assets/teeth.png');
+.lips {
+  background-color: #D04054;
+  padding: 2px 1px 4px 1px;
 }

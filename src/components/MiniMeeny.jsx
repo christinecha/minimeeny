@@ -44,7 +44,9 @@ export class MiniMeeny extends React.Component {
 
         if (!audio.paused) {
           dispatch(action.UPDATE_FACE(animationFrame))
-          requestAnimationFrame(renderFrame)
+          setTimeout(() => {
+            requestAnimationFrame(renderFrame)
+          }, 5)
         } else {
           dispatch(action.UPDATE_FACE({
             height: 2,
@@ -70,18 +72,26 @@ export class MiniMeeny extends React.Component {
     let face = animations.toJS().face
     let borderRadiusString = face.borderRadius + '% ' + face.borderRadius + '% 80% 80%'
 
+    let mouthFill = "url(#mouthTexture)"
+    if (face.height <= 4) {
+      mouthFill = "black"
+    }
+
     let styles = {
+      lips: {
+        margin: (face.height / 2) + 'px auto',
+        WebkitTransition: 'all .1s',
+        transition: 'all .1s',
+      },
       mouth: {
         backgroundColor: 'black',
         width: face.width + 'px',
         height: face.height + 'px',
         border: '2px solid #D04054',
         borderRadius: borderRadiusString,
-        margin: ((20 - face.height) / 2) + 'px auto',
-        WebkitTransition: 'height .05s, width .1s, border-radius .05s',
-        transition: 'height .05s, width .1s, border-radius .05s',
-        backgroundImage: 'url("./src/assets/teeth-01.png")',
-        backgroundPosition: '0 60%'
+        margin: ((30 - face.height) / 2) + 'px auto',
+        WebkitTransition: 'all .1s',
+        transition: 'all .1s',
       },
       eyebrows: {
 
@@ -93,14 +103,14 @@ export class MiniMeeny extends React.Component {
         transition: 'margin .1s, transform .1s'
       },
       eyebrowLeft: {
-        MsTransform: 'rotate(-' + face.eyebrowHeight + 'deg)', /* IE 9 */
-        WebkitTransform: 'rotate(-' + face.eyebrowHeight + 'deg)', /* Chrome, Safari, Opera */
-        transform: 'rotate(-' + face.eyebrowHeight + 'deg)'
+        MsTransform: 'rotate(-' + (face.eyebrowHeight / 2.2) + 'deg)', /* IE 9 */
+        WebkitTransform: 'rotate(-' + (face.eyebrowHeight / 2.2) + 'deg)', /* Chrome, Safari, Opera */
+        transform: 'rotate(-' + (face.eyebrowHeight / 2.2) + 'deg)'
       },
       eyebrowRight: {
-        MsTransform: 'rotate(' + face.eyebrowHeight + 'deg)', /* IE 9 */
-        WebkitTransform: 'rotate(' + face.eyebrowHeight + 'deg)', /* Chrome, Safari, Opera */
-        transform: 'rotate(' + face.eyebrowHeight + 'deg)'
+        MsTransform: 'rotate(' + (face.eyebrowHeight / 2) + 'deg)', /* IE 9 */
+        WebkitTransform: 'rotate(' + (face.eyebrowHeight / 2) + 'deg)', /* Chrome, Safari, Opera */
+        transform: 'rotate(' + (face.eyebrowHeight / 2) + 'deg)'
       }
     }
 
@@ -120,8 +130,15 @@ export class MiniMeeny extends React.Component {
             <div className={"eye"}></div>
             <div className={"eye"}></div>
           </div>
-          <div className={"mouthContainer"} style={styles.lips}>
-            <div style={styles.mouth} ></div>
+          <div className={"mouthContainer"}>
+            <svg height={face.height + 2} width="50" style={styles.lips}>
+              <defs>
+                <pattern id="mouthTexture" patternUnits="userSpaceOnUse" width="50" height="30">
+                  <image xlinkHref="./src/assets/mouth-02.png" x="0" y="-1" width="50" height="30" />
+                </pattern>
+              </defs>
+              <ellipse cx="25" cy={face.height / 2} rx={face.width / 2} ry={face.height / 2} style={styles.mouth} fill={mouthFill} stroke="#D04054" strokeWidth="1" />
+            </svg>
           </div>
         </div>
       </div>

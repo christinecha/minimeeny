@@ -50,22 +50,24 @@ export const getAnimationFrame = (frequencyData, envVolume) => {
       excessCorrected+= 0.25 + (1 / i)
     }
     trueVolume = 100 + excessCorrected
-    console.log(trueVolume, pitch, purity)
+    // console.log(trueVolume, pitch, purity)
 
-    height = 2 + Math.round(trueVolume / 40)
-    width = 50 + Math.round(trueVolume / 30) - (pitch) - (purity * 150)
-    borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 400) - (purity * 50)
+    height = 2 + Math.round(trueVolume / 30) + (pitch / 10)
+    width = 10 + Math.round(trueVolume / 500) + (purity * 80)
+    borderRadius = Math.round(pitch * 4) + Math.round(trueVolume / 300) - (purity * 50)
     eyebrowHeight = 1 + Math.ceil(trueVolume / 50)
-    // console.log(height, width)
+    console.log(height, width)
 
-    if (height >= 20) {
-      height = 20
+    if (height >= 30) {
+      height = 30
+    } else if (height <= 6) {
+      height = 4
     }
 
-    if (width >= 50) {
-      width = 50
-    } else if (width <= 15) {
-      width = 15
+    if (width >= 30) {
+      width = 30
+    } else if (width <= 18) {
+      width = 18
     }
   }
 
