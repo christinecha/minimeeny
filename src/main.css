@@ -48,11 +48,15 @@ body {
 }
 
 .mouthContainer {
-  padding: 2px 1px 4px 1px;
+  padding: 1px 0px 3px 1px;
+  overflow: hidden;
   width: 44px;
   margin: 0 auto;
   border-radius: 50%;
   background-color: #D04054;
+  /*background-image: url('./assets/mouth-hole-02.png');*/
+  background-position: 0 50%;
+  background-size: 100% 100%;
 }
 
 .mouth {
@@ -63,4 +67,5 @@ body {
   margin: 0 auto;
   -webkit-transition: width .02s, height .02s;
   transition: width .02s, height .02s;
+  background-image: url('../assets/teeth.png');
 }

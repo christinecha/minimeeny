@@ -84,7 +84,9 @@ export class MiniMeeny extends React.Component {
         borderRadius: borderRadiusString,
         margin: '0 auto',
         WebkitTransition: 'height .05s, width .1s, border-radius .05s',
-        transition: 'height .05s, width .1s, border-radius .05s'
+        transition: 'height .05s, width .1s, border-radius .05s',
+        backgroundImage: 'url("./src/assets/teeth-01.png")',
+        backgroundPosition: '0 60%'
       },
       eyebrows: {
 
