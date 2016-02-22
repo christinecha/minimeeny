@@ -19,7 +19,7 @@ export class MiniMeeny extends React.Component {
     let source = audioCtx.createMediaElementSource(audio)
     source.connect(analyser)
     analyser.connect(audioCtx.destination)
-    analyser.fftSize = 2048
+    analyser.fftSize = 4096
 
     let frequencyData = new Uint8Array(analyser.frequencyBinCount)
 
@@ -46,11 +46,11 @@ export class MiniMeeny extends React.Component {
           dispatch(action.UPDATE_FACE(animationFrame))
           setTimeout(() => {
             requestAnimationFrame(renderFrame)
-          }, 5)
+          }, 0)
         } else {
           dispatch(action.UPDATE_FACE({
             height: 2,
-            width: 40,
+            width: 30,
             borderRadius: 50,
             eyebrowHeight: 0
           }))
@@ -137,7 +137,7 @@ export class MiniMeeny extends React.Component {
                   <image xlinkHref="./src/assets/mouth-02.png" x="0" y="-1" width="50" height="30" />
                 </pattern>
               </defs>
-              <ellipse cx="25" cy={face.height / 2} rx={face.width / 2} ry={face.height / 2} style={styles.mouth} fill={mouthFill} stroke="#D04054" strokeWidth="1" />
+              <ellipse cx="25" cy={(face.height + 2) / 2} rx={face.width / 2} ry={face.height / 2} style={styles.mouth} fill={mouthFill} stroke="#D04054" strokeWidth="1" />
             </svg>
           </div>
         </div>
